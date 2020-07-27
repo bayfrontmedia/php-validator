@@ -1,0 +1,42 @@
+{
+  "name": "bayfrontmedia/php-validator",
+  "description": "Simple class used to validate a variety of data.",
+  "homepage": "https://github.com/bayfrontmedia/php-validator",
+  "license" : "MIT",
+  "version": "1.0.0",
+  "type": "library",
+  "keywords": [
+    "php",
+    "validate",
+    "validator",
+    "strings",
+    "values",
+    "numbers",
+    "types",
+    "dates"
+  ],
+  "authors": [
+    {
+      "name": "John Robinson",
+      "email": "john@bayfrontmedia.com",
+      "homepage": "https://www.bayfrontmedia.com",
+      "role": "Developer"
+    }
+  ],
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/bayfrontmedia"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "ext-json": "*",
+    "ext-ctype": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bayfront\\Validator\\": "src/"
+    }
+  }
+}
