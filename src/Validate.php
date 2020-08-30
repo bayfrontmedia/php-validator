@@ -1,12 +1,10 @@
 <?php
+
 /**
- * Simple class used to validate a variety of data
- *
- * @version     1.0.0
- * @link        https://github.com/bayfrontmedia/php-validator
- * @license     MIT https://opensource.org/licenses/MIT
- * @copyright   2020 Bayfront Media https://www.bayfrontmedia.com
- * @author      John Robinson <john@bayfrontmedia.com>
+ * @package php-validator
+ * @link https://github.com/bayfrontmedia/php-validator
+ * @author John Robinson <john@bayfrontmedia.com>
+ * @copyright 2020 Bayfront Media
  */
 
 namespace Bayfront\Validator;
@@ -21,7 +19,7 @@ class Validate
      */
 
     /**
-     * Is string empty
+     * Checks if string is empty.
      *
      * @param string $string
      *
@@ -34,7 +32,7 @@ class Validate
     }
 
     /**
-     * Checks if two strings match
+     * Checks if two strings match.
      *
      * @param string $string
      * @param string $matches
@@ -48,7 +46,7 @@ class Validate
     }
 
     /**
-     * Checks if string length is greater than or equal to a given length
+     * Checks if string length is greater than or equal to a given length.
      *
      * @param string $string
      * @param int $length
@@ -62,7 +60,7 @@ class Validate
     }
 
     /**
-     * Checks if string length is less than or equal to a given length
+     * Checks if string length is less than or equal to a given length.
      *
      * @param string $string
      * @param int $length
@@ -76,7 +74,7 @@ class Validate
     }
 
     /**
-     * Checks if string length is equal to a given length
+     * Checks if string length is equal to a given length.
      *
      * @param string $string
      * @param int $length
@@ -90,7 +88,7 @@ class Validate
     }
 
     /**
-     * Checks if string length is between min and max length
+     * Checks if string length is between min and max length.
      *
      * @param string $string
      * @param int $min
@@ -105,7 +103,7 @@ class Validate
     }
 
     /**
-     * Checks if string contains case-sensitive needle(s)
+     * Checks if string contains case-sensitive needle(s).
      *
      * @param string $string
      * @param $needles string|array
@@ -132,7 +130,7 @@ class Validate
     }
 
     /**
-     * Checks if string begins with a given needle
+     * Checks if string begins with a given needle.
      *
      * @param string $string
      * @param string $needle
@@ -146,7 +144,7 @@ class Validate
     }
 
     /**
-     * Checks if string ends with a given needle
+     * Checks if string ends with a given needle.
      *
      * @param string $string
      * @param string $needle
@@ -160,7 +158,7 @@ class Validate
     }
 
     /**
-     * Checks if string validates as email
+     * Checks if string validates as email.
      *
      * @param string $string
      *
@@ -173,7 +171,7 @@ class Validate
     }
 
     /**
-     * Checks if string validates as a URL
+     * Checks if string validates as a URL.
      *
      * @param string $string
      *
@@ -186,7 +184,7 @@ class Validate
     }
 
     /**
-     * Checks if string validates as an IP address
+     * Checks if string validates as an IP address.
      *
      * @param string $string
      *
@@ -199,7 +197,7 @@ class Validate
     }
 
     /**
-     * Checks if string validates as an IPv4 address
+     * Checks if string validates as an IPv4 address.
      *
      * @param string $string
      *
@@ -212,7 +210,7 @@ class Validate
     }
 
     /**
-     * Checks if string validates as an IPv6 address
+     * Checks if string validates as an IPv6 address.
      *
      * @param string $string
      *
@@ -225,7 +223,7 @@ class Validate
     }
 
     /**
-     * Checks if string only contains alpha characters
+     * Checks if string only contains alpha characters.
      *
      * @param string $string
      *
@@ -238,7 +236,7 @@ class Validate
     }
 
     /**
-     * Checks if string only contains alphanumeric characters
+     * Checks if string only contains alphanumeric characters.
      *
      * @param string $string
      *
@@ -257,7 +255,7 @@ class Validate
      */
 
     /**
-     * Checks if value is less than a given number
+     * Checks if value is less than a given number.
      *
      * @param int $value
      * @param int $compare
@@ -271,7 +269,7 @@ class Validate
     }
 
     /**
-     * Checks if value is greater than a given number
+     * Checks if value is greater than a given number.
      *
      * @param int $value
      * @param int $compare
@@ -285,7 +283,7 @@ class Validate
     }
 
     /**
-     * Checks if value is less than or equal to a given number
+     * Checks if value is less than or equal to a given number.
      *
      * @param int $value
      * @param int $compare
@@ -299,7 +297,7 @@ class Validate
     }
 
     /**
-     * Checks if value is greater than or equal to a given number
+     * Checks if value is greater than or equal to a given number.
      *
      * @param int $value
      * @param int $compare
@@ -313,7 +311,7 @@ class Validate
     }
 
     /**
-     * Checks if values are equal
+     * Checks if values are equal.
      *
      * @param int $value
      * @param int $compare
@@ -327,7 +325,7 @@ class Validate
     }
 
     /**
-     * Checks if value is between given min and max values
+     * Checks if value is between given min and max values.
      *
      * @param int $value
      * @param int $min
@@ -348,7 +346,7 @@ class Validate
      */
 
     /**
-     * Checks if value is an integer
+     * Checks if value is an integer.
      *
      * @param mixed $value
      *
@@ -361,7 +359,7 @@ class Validate
     }
 
     /**
-     * Checks if value is a float
+     * Checks if value is a float.
      *
      * @param mixed $value
      *
@@ -374,7 +372,7 @@ class Validate
     }
 
     /**
-     * Checks if value is a boolean
+     * Checks if value is a boolean.
      *
      * @param mixed $value
      *
@@ -387,7 +385,7 @@ class Validate
     }
 
     /**
-     * Checks if value is an object
+     * Checks if value is an object.
      *
      * @param mixed $value
      *
@@ -400,7 +398,7 @@ class Validate
     }
 
     /**
-     * Checks if value is an array
+     * Checks if value is an array.
      *
      * @param mixed $value
      *
@@ -413,7 +411,7 @@ class Validate
     }
 
     /**
-     * Checks if value is a string
+     * Checks if value is a string.
      *
      * @param mixed $value
      *
@@ -426,7 +424,7 @@ class Validate
     }
 
     /**
-     * Checks if value is a JSON string
+     * Checks if value is a JSON string.
      *
      * @param mixed $value
      *
