@@ -436,7 +436,7 @@ class Validate
 
         if (self::string($value)) {
 
-            if (null !== json_decode($value)) {
+            if (NULL !== json_decode($value)) {
 
                 return (json_last_error() == JSON_ERROR_NONE);
 
