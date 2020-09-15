@@ -3,7 +3,7 @@
   "description": "Simple class used to validate a variety of data.",
   "homepage": "https://github.com/bayfrontmedia/php-validator",
   "license" : "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "library",
   "keywords": [
     "php",
