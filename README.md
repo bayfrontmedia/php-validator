@@ -706,5 +706,3 @@ try {
     die($e->getMessage());
 }
 ```
-
-<hr />
