@@ -4,10 +4,13 @@
  * @package php-validator
  * @link https://github.com/bayfrontmedia/php-validator
  * @author John Robinson <john@bayfrontmedia.com>
- * @copyright 2020 Bayfront Media
+ * @copyright 2020-2021 Bayfront Media
  */
 
 namespace Bayfront\Validator;
+
+use Bayfront\ArrayHelpers\Arr;
+use DateTime;
 
 class Validate
 {
@@ -236,6 +239,19 @@ class Validate
     }
 
     /**
+     * Checks if string is numeric.
+     *
+     * @param string $string
+     *
+     * @return bool
+     */
+
+    public static function numeric(string $string): bool
+    {
+        return (is_numeric($string));
+    }
+
+    /**
      * Checks if string only contains alphanumeric characters.
      *
      * @param string $string
@@ -246,6 +262,24 @@ class Validate
     public static function alphaNumeric(string $string): bool
     {
         return (ctype_alnum($string)) ? true : false;
+    }
+
+    /**
+     * Checks if string is a valid date according to a given format.
+     *
+     * See: https://www.php.net/manual/en/datetime.format.php
+     *
+     * @param string $string
+     * @param string $format (Date format to validate)
+     *
+     * @return bool
+     */
+
+    public static function date(string $string, string $format = 'Y-m-d H:i:s'): bool
+    {
+        $obj = DateTime::createFromFormat($format, $string);
+
+        return $obj && $obj->format($format) == $string;
     }
 
     /*
@@ -344,6 +378,19 @@ class Validate
      * Types
      * ############################################################
      */
+
+    /**
+     * Checks if value is NULL.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+
+    public static function null($value): bool
+    {
+        return (NULL === $value);
+    }
 
     /**
      * Checks if value is an integer.
@@ -445,6 +492,191 @@ class Validate
         }
 
         return false;
+
+    }
+
+    /**
+     * Validate array values against a set of rules.
+     *
+     * Available rules are:
+     *
+     *  - empty
+     *  - email
+     *  - url
+     *  - ip
+     *  - ipv4
+     *  - ipv6
+     *  - alpha
+     *  - numeric
+     *  - alphanumeric
+     *  - null
+     *  - integer
+     *  - float
+     *  - boolean
+     *  - object
+     *  - string
+     *  - json
+     *
+     * @param array $array (Array to validate)
+     * @param array $rules
+     *     (Array whose keys are the array key to validate in dot notation
+     *     and values are the rule)
+     *
+     * @return void
+     *
+     * @throws ValidationException
+     */
+
+    public static function as(array $array, array $rules): void
+    {
+
+        foreach (Arr::dot($array) as $key => $value) {
+
+            $rule = Arr::get($rules, $key);
+
+            if ($rule) { // If a rule has been defined for this array key
+
+                switch ($rule) {
+
+                    case 'empty':
+
+                        if (self::empty($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'email':
+
+                        if (self::email($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'url':
+
+                        if (self::url($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'ip':
+
+                        if (self::ip($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'ipv4':
+
+                        if (self::ipv4($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'ipv6':
+
+                        if (self::ipv6($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'alpha':
+
+                        if (self::alpha($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'numeric':
+
+                        if (self::numeric($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'alphanumeric':
+
+                        if (self::alphaNumeric($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'null':
+
+                        if (self::null($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'integer':
+
+                        if (self::integer($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'float':
+
+                        if (self::float($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'boolean':
+
+                        if (self::boolean($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'object':
+
+                        if (self::object($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'string':
+
+                        if (self::string($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    case 'json':
+
+                        if (self::json($value)) {
+                            continue 2;
+                        }
+
+                        break;
+
+                    default:
+
+                        throw new ValidationException('Unable to validate: invalid rule (' . $rule . ')');
+
+                }
+
+                throw new ValidationException('Unable to validate: key (' . $key . ') with rule (' . $rule . ')');
+
+            }
+
+        }
 
     }
 

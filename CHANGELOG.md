@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities
 
+## [1.1.0] - 2021.01.13
+
+### Added
+
+- Added the following methods:
+    - `null`
+    - `numeric`
+    - `date`
+    - `as`
+
 ## [1.0.1] - 2020.09.14
 
 ### Fixed

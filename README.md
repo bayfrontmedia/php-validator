@@ -57,7 +57,9 @@ if (!Validate::empty($string)) {
 - [ipv4](#ipv4)
 - [ipv6](#ipv6)
 - [alpha](#alpha)
+- [numeric](#numeric)
 - [alphaNumeric](#alphanumeric)
+- [date](#date)
 
 **Numbers:**
 
@@ -70,6 +72,7 @@ if (!Validate::empty($string)) {
 
 **Types:**
 
+- [null](#null)
 - [integer](#integer)
 - [float](#float)
 - [boolean](#boolean)
@@ -77,6 +80,10 @@ if (!Validate::empty($string)) {
 - [array](#array)
 - [string](#string)
 - [json](#json)
+
+**Other:**
+
+- [as](#as)
 
 <hr />
 
@@ -344,6 +351,22 @@ Checks if string only contains alpha characters.
 
 <hr />
 
+### numeric
+
+**Description:**
+
+Checks if string is numeric.
+
+**Parameters:**
+
+- `$string` (string)
+
+**Returns:**
+
+- (bool)
+
+<hr />
+
 ### alphaNumeric
 
 **Description:**
@@ -353,6 +376,25 @@ Checks if string only contains alphanumeric characters.
 **Parameters:**
 
 - `$string` (string)
+
+**Returns:**
+
+- (bool)
+
+<hr />
+
+### date
+
+**Description:**
+
+Checks if string is a valid date according to a given format.
+
+See: [https://www.php.net/manual/en/datetime.format.php](https://www.php.net/manual/en/datetime.format.php)
+
+**Parameters:**
+
+- `$string` (string)
+- `$format = 'Y-m-d H:i:s'` (string)
 
 **Returns:**
 
@@ -456,6 +498,22 @@ Checks if value is between given min and max values.
 - `$value` (int)
 - `$min` (int)
 - `$max` (int)
+
+**Returns:**
+
+- (bool)
+
+<hr />
+
+### null
+
+**Description:**
+
+Checks if value is `NULL`.
+
+**Parameters:**
+
+- `$value` (mixed)
 
 **Returns:**
 
@@ -572,3 +630,81 @@ Checks if value is a JSON string.
 **Returns:**
 
 - (bool)
+
+### as
+
+**Description:**
+
+Validate array values against a set of rules.
+
+Available rules are:
+
+- `empty`
+- `email`
+- `url`
+- `ip`
+- `ipv4`
+- `ipv6`
+- `alpha`
+- `numeric`
+- `alphanumeric`
+- `null`
+- `integer`
+- `float`
+- `boolean`
+- `object`
+- `string`
+- `json`
+
+**Parameters:**
+
+- `$array` (array): Array to validate
+- `$rules` (array): Array whose keys are the array key to validate in dot notation and values are the rule
+
+**Returns:**
+
+- (void)
+
+**Throws:**
+
+- `Bayfront\Validator\ValidationException`
+
+**Example:**
+
+```
+use Bayfront\Validator\Validate;
+use Bayfront\Validator\ValidationException;
+
+$array = [
+    'sku' => 12345,
+    'type' => 'shirt',
+    'color' => 'blue',
+    'sizes' => [
+        'small' => [
+            'quantity' => 3,
+            'price' => 9.99
+        ]
+    ],
+    'on_sale' => true
+];
+
+$rules = [
+    'sku' => 'integer',
+    'type' => 'string',
+    'color' => 'string',
+    'quantity' => 'integer',
+    'sizes.small.quantity' => 'integer',
+    'sizes.small.price' => 'float',
+    'on_sale' => 'boolean'
+];
+
+try {
+
+    Validate::as($array, $rules);
+
+} catch (ValidationException $e) {
+    die($e->getMessage());
+}
+```
+
+<hr />

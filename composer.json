@@ -30,7 +30,8 @@
   "require": {
     "php": ">=7.1.0",
     "ext-json": "*",
-    "ext-ctype": "*"
+    "ext-ctype": "*",
+    "bayfrontmedia/php-array-helpers": "^1.1.0"
   },
   "autoload": {
     "psr-4": {
