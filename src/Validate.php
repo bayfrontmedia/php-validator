@@ -514,6 +514,7 @@ class Validate
      *  - float
      *  - boolean
      *  - object
+     *  - array
      *  - string
      *  - json
      *
@@ -529,6 +530,28 @@ class Validate
 
     public static function as(array $array, array $rules): void
     {
+
+        /*
+         * Check for array rules before flattening the array using dot notation
+         */
+
+        $keys = array_keys($rules, 'array');
+
+        foreach ($keys as $key) {
+
+            $exists = Arr::get($array, $key, []); // Get value in dot notation
+
+            if (!self::array($exists)) {
+
+                throw new ValidationException('Unable to validate: key (' . $key . ') with rule (array)');
+
+            }
+
+        }
+
+        /*
+         * Flatten the array and check for remaining rules
+         */
 
         foreach (Arr::dot($array) as $key => $value) {
 

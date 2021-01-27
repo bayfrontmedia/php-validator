@@ -653,6 +653,7 @@ Available rules are:
 - `float`
 - `boolean`
 - `object`
+- `array`
 - `string`
 - `json`
 
@@ -685,7 +686,14 @@ $array = [
             'price' => 9.99
         ]
     ],
-    'on_sale' => true
+    'on_sale' => true,
+    'meta' => [
+        'tags' => [
+            'popular',
+            'sale',
+            'mens'
+        ]
+    ]
 ];
 
 $rules = [
@@ -695,7 +703,8 @@ $rules = [
     'quantity' => 'integer',
     'sizes.small.quantity' => 'integer',
     'sizes.small.price' => 'float',
-    'on_sale' => 'boolean'
+    'on_sale' => 'boolean',
+    'meta.tags' => 'array'
 ];
 
 try {
