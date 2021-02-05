@@ -631,11 +631,15 @@ Checks if value is a JSON string.
 
 - (bool)
 
+<hr />
+
 ### as
 
 **Description:**
 
 Validate array values against a set of rules.
+
+Multiple rules can be validated against one key by separating them with a pipe (`|`).
 
 Available rules are:
 
@@ -698,12 +702,12 @@ $array = [
 
 $rules = [
     'sku' => 'integer',
-    'type' => 'string',
+    'type' => 'string|null',
     'color' => 'string',
     'quantity' => 'integer',
     'sizes.small.quantity' => 'integer',
     'sizes.small.price' => 'float',
-    'on_sale' => 'boolean',
+    'on_sale' => 'boolean|null',
     'meta.tags' => 'array'
 ];
 

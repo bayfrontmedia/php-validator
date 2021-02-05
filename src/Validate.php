@@ -498,6 +498,8 @@ class Validate
     /**
      * Validate array values against a set of rules.
      *
+     * Multiple rules can be validated against one key by separating them with a pipe (|).
+     *
      * Available rules are:
      *
      *  - empty
@@ -531,173 +533,97 @@ class Validate
     public static function as(array $array, array $rules): void
     {
 
-        /*
-         * Check for array rules before flattening the array using dot notation
-         */
+        $valid_rules = [
+            'empty',
+            'email',
+            'url',
+            'ip',
+            'ipv4',
+            'ipv6',
+            'alpha',
+            'numeric',
+            'alphanumeric',
+            'null',
+            'integer',
+            'float',
+            'boolean',
+            'object',
+            'array',
+            'string',
+            'json'
+        ];
 
-        $keys = array_keys($rules, 'array');
+        foreach ($rules as $key => $v) {
 
-        foreach ($keys as $key) {
+            $validations = explode('|', $v);
 
-            $exists = Arr::get($array, $key, []); // Get value in dot notation
+            foreach ($validations as $validation) {
 
-            if (!self::array($exists)) {
+                /*
+                 * Because flattening the array using Arr::dot removes empty arrays,
+                 * the "array" rule must be explicitly validated here.
+                 */
 
-                throw new ValidationException('Unable to validate: key (' . $key . ') with rule (array)');
+                if ($validation == 'array') { // Validate array
 
-            }
+                    $value = Arr::get($array, $key, []); // Get value in dot notation
 
-        }
+                    if (self::array($value)) {
 
-        /*
-         * Flatten the array and check for remaining rules
-         */
+                        continue 2; // Passed: iterate to next rule
 
-        foreach (Arr::dot($array) as $key => $value) {
+                    }
 
-            $rule = Arr::get($rules, $key);
+                    continue; // Failed: continue to next validation
 
-            if ($rule) { // If a rule has been defined for this array key
+                    /*
+                     * Because a key with NULL value will not be returned below,
+                     * the "null" rule must be explicitly validated here.
+                     */
 
-                switch ($rule) {
+                } else if ($validation == 'null') { // Validate null
 
-                    case 'empty':
+                    if (self::null(Arr::get($array, $key))) {
 
-                        if (self::empty($value)) {
-                            continue 2;
+                        continue 2; // Passed: iterate to next rule
+
+                    }
+
+                    continue; // Failed: continue to next validation
+
+                } else if (Arr::has($array, $key)) { // Check for all other keys in dot notation
+
+                    if (in_array($validation, $valid_rules)) { // Validate everything else
+
+                        if (self::$validation(Arr::get($array, $key))) {
+
+                            continue 2; // Passed: iterate to next rule
+
                         }
 
-                        break;
+                        continue; // Failed: continue to next validation
 
-                    case 'email':
+                    }
 
-                        if (self::email($value)) {
-                            continue 2;
-                        }
+                } else {
 
-                        break;
-
-                    case 'url':
-
-                        if (self::url($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'ip':
-
-                        if (self::ip($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'ipv4':
-
-                        if (self::ipv4($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'ipv6':
-
-                        if (self::ipv6($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'alpha':
-
-                        if (self::alpha($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'numeric':
-
-                        if (self::numeric($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'alphanumeric':
-
-                        if (self::alphaNumeric($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'null':
-
-                        if (self::null($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'integer':
-
-                        if (self::integer($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'float':
-
-                        if (self::float($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'boolean':
-
-                        if (self::boolean($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'object':
-
-                        if (self::object($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'string':
-
-                        if (self::string($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    case 'json':
-
-                        if (self::json($value)) {
-                            continue 2;
-                        }
-
-                        break;
-
-                    default:
-
-                        throw new ValidationException('Unable to validate: invalid rule (' . $rule . ')');
+                    continue 2; // Key does not exist on array: iterate to next rule
 
                 }
 
-                throw new ValidationException('Unable to validate: key (' . $key . ') with rule (' . $rule . ')');
+                /*
+                 * Invalid rule
+                 */
+
+                throw new ValidationException('Unable to validate value (' . $key . '): invalid rule (' . $v . ')');
 
             }
+
+            /*
+             * If all the validation rules have iterated and no passing rule was found
+             */
+
+            throw new ValidationException('Unable to validate value (' . $key . '): with rule (' . $v . ')');
 
         }
 
