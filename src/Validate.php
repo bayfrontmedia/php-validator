@@ -1,12 +1,5 @@
 <?php
 
-/**
- * @package php-validator
- * @link https://github.com/bayfrontmedia/php-validator
- * @author John Robinson <john@bayfrontmedia.com>
- * @copyright 2020-2021 Bayfront Media
- */
-
 namespace Bayfront\Validator;
 
 use Bayfront\ArrayHelpers\Arr;
@@ -109,18 +102,18 @@ class Validate
      * Checks if string contains case-sensitive needle(s).
      *
      * @param string $string
-     * @param $needles string|array
+     * @param $needles array|string
      *
      * @return bool
      */
 
-    public static function contains(string $string, $needles): bool
+    public static function contains(string $string, array|string $needles): bool
     {
         $needles = (array)$needles;
 
         foreach ($needles as $needle) {
 
-            if (strpos($string, $needle) === false) {
+            if (!str_contains($string, $needle)) {
 
                 return false;
 
@@ -143,7 +136,7 @@ class Validate
 
     public static function startsWith(string $string, string $needle): bool
     {
-        return substr($string, 0, strlen($needle)) === $needle;
+        return str_starts_with($string, $needle);
     }
 
     /**
@@ -157,7 +150,7 @@ class Validate
 
     public static function endsWith(string $string, string $needle): bool
     {
-        return substr($string, -strlen($needle)) === $needle;
+        return str_ends_with($string, $needle);
     }
 
     /**
@@ -235,7 +228,7 @@ class Validate
 
     public static function alpha(string $string): bool
     {
-        return (ctype_alpha($string)) ? true : false;
+        return ctype_alpha($string);
     }
 
     /**
@@ -261,7 +254,7 @@ class Validate
 
     public static function alphaNumeric(string $string): bool
     {
-        return (ctype_alnum($string)) ? true : false;
+        return ctype_alnum($string);
     }
 
     /**
@@ -387,7 +380,7 @@ class Validate
      * @return bool
      */
 
-    public static function null($value): bool
+    public static function null(mixed $value): bool
     {
         return (NULL === $value);
     }
@@ -400,7 +393,7 @@ class Validate
      * @return bool
      */
 
-    public static function integer($value): bool
+    public static function integer(mixed $value): bool
     {
         return is_int($value);
     }
@@ -413,7 +406,7 @@ class Validate
      * @return bool
      */
 
-    public static function float($value): bool
+    public static function float(mixed $value): bool
     {
         return is_float($value);
     }
@@ -426,7 +419,7 @@ class Validate
      * @return bool
      */
 
-    public static function boolean($value): bool
+    public static function boolean(mixed $value): bool
     {
         return is_bool($value);
     }
@@ -439,7 +432,7 @@ class Validate
      * @return bool
      */
 
-    public static function object($value): bool
+    public static function object(mixed $value): bool
     {
         return is_object($value);
     }
@@ -452,7 +445,7 @@ class Validate
      * @return bool
      */
 
-    public static function array($value): bool
+    public static function array(mixed $value): bool
     {
         return is_array($value);
     }
@@ -465,7 +458,7 @@ class Validate
      * @return bool
      */
 
-    public static function string($value): bool
+    public static function string(mixed $value): bool
     {
         return is_string($value);
     }
@@ -478,7 +471,7 @@ class Validate
      * @return bool
      */
 
-    public static function json($value): bool
+    public static function json(mixed $value): bool
     {
 
         if (self::string($value)) {
