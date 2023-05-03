@@ -63,6 +63,8 @@ if (!Validate::empty($string)) {
 - [numeric](#numeric)
 - [alphaNumeric](#alphanumeric)
 - [date](#date)
+- [uuid](#uuid)
+- [uuidv4](#uuidv4)
 
 **Numbers:**
 
@@ -405,6 +407,38 @@ See: [https://www.php.net/manual/en/datetime.format.php](https://www.php.net/man
 
 <hr />
 
+### uuid
+
+**Description:**
+
+Checks if string is a valid UUID.
+
+**Parameters:**
+
+- `$string` (string)
+
+**Returns:**
+
+- (bool)
+
+<hr />
+
+### uuidv4
+
+**Description:**
+
+Checks if string is a valid UUIDv4.
+
+**Parameters:**
+
+- `$string` (string)
+
+**Returns:**
+
+- (bool)
+
+<hr />
+
 ### lessThan
 
 **Description:**
@@ -655,6 +689,8 @@ Available rules are:
 - `alpha`
 - `numeric`
 - `alphanumeric`
+- `uuid`
+- `uuidv4`
 - `null`
 - `integer`
 - `float`

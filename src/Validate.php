@@ -275,6 +275,36 @@ class Validate
         return $obj && $obj->format($format) == $string;
     }
 
+    /**
+     * Checks if string is a valid UUID.
+     *
+     * @param string $string
+     * @return bool
+     */
+    public static function uuid(string $string): bool
+    {
+
+        $regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/';
+
+        return (bool)preg_match($regex, $string);
+
+    }
+
+    /**
+     * Checks if string is a valid UUIDv4.
+     *
+     * @param string $string
+     * @return bool
+     */
+    public static function uuidv4(string $string): bool
+    {
+
+        $regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/';
+
+        return (bool)preg_match($regex, $string);
+
+    }
+
     /*
      * ############################################################
      * Numbers
@@ -504,6 +534,8 @@ class Validate
      *  - alpha
      *  - numeric
      *  - alphanumeric
+     *  - uuid
+     *  - uuidv4
      *  - null
      *  - integer
      *  - float
@@ -536,6 +568,8 @@ class Validate
             'alpha',
             'numeric',
             'alphanumeric',
+            'uuid',
+            'uuidv4',
             'null',
             'integer',
             'float',
