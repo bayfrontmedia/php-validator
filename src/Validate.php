@@ -549,13 +549,13 @@ class Validate
      * @param array $rules
      *     (Array whose keys are the array key to validate in dot notation
      *     and values are the rule)
-     *
+     * @param bool $require_existing (Require all array keys to exist)
      * @return void
      *
      * @throws ValidationException
      */
 
-    public static function as(array $array, array $rules): void
+    public static function as(array $array, array $rules, bool $require_existing = false): void
     {
 
         $valid_rules = [
@@ -581,6 +581,10 @@ class Validate
         ];
 
         foreach ($rules as $key => $v) {
+
+            if ($require_existing && !Arr::has($array, $key)) {
+                throw new ValidationException('Unable to validate required value (' . $key . '): Value does not exist');
+            }
 
             $validations = explode('|', $v);
 

@@ -704,6 +704,7 @@ Available rules are:
 
 - `$array` (array): Array to validate
 - `$rules` (array): Array whose keys are the array key to validate in dot notation and values are the rule
+- `$require_existing = false` (bool): Require all array keys to exist
 
 **Returns:**
 
