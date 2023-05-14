@@ -708,17 +708,12 @@ Available rules are:
 
 **Returns:**
 
-- (void)
-
-**Throws:**
-
-- `Bayfront\Validator\ValidationException`
+- (bool)
 
 **Example:**
 
 ```
 use Bayfront\Validator\Validate;
-use Bayfront\Validator\ValidationException;
 
 $array = [
     'sku' => 12345,
@@ -751,11 +746,7 @@ $rules = [
     'meta.tags' => 'array'
 ];
 
-try {
-
-    Validate::as($array, $rules);
-
-} catch (ValidationException $e) {
-    die($e->getMessage());
+if (!Validate::as($array, $rules)) {
+    // Do something
 }
 ```
