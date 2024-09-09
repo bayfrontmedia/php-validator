@@ -1,6 +1,6 @@
 ## PHP validator
 
-Simple class used to validate types and values.
+Simple class used to validate a variety of data.
 
 - [License](#license)
 - [Author](#author)

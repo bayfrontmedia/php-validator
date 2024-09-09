@@ -1,7 +1,6 @@
 # Documentation > Validator
 
-The `Bayfront\Validator\Validator` class allows defining and validating multiple [rules](rules.md)
-against a given array.
+Validate an array using multiple [rules](rules.md).
 
 All rules can be used except for:
 
@@ -21,13 +20,13 @@ which allows for an array key's value to optionally be `null`.
 use Bayfront\Validator\Validator;
 
 $array = [
-    'sku' => 12345,
+    'sku' => 1234567,
     'type' => 'shirt',
     'color' => 'blue',
     'sizes' => [
         'small' => [
             'quantity' => 3,
-            'price' => 19.99
+            'price' => -19.99
         ]
     ],
     'on_sale' => true,
@@ -44,7 +43,7 @@ $rules = [
     'sku' => 'isInteger|lengthBetween:4,6',
     'color' => 'isString',
     'sizes.small.quantity' => 'isInteger|greaterThanOrEqual:0',
-    'sizes.small.price' => 'isInteger|greaterThanOrEqual:0'
+    'sizes.small.price' => 'isFloat|greaterThanOrEqual:0',
     'on_sale' => 'isBoolean',
     'meta.tags' => 'nullable|isArray'
 ];
@@ -61,10 +60,12 @@ $validator->setRuleMessages('sizes.small.quantity', [
     'greaterThanOrEqual' => 'Item quantity must be greater than 0'
 ]);
 
-$validator->validate($array, $rules, true);
+$validator->validate($array, $rules, true); // Require all keys to exist
 
 if (!$validator->isValid()) {
     var_dump($validator->getMessages());
+} else {
+    die('Array is valid!');
 }
 ```
 
@@ -152,7 +153,10 @@ Set validation messages for a specific array key rule.
 
 Get all validation messages.
 
-Array keys equal the rule array key in which the validation error occurred.
+Array keys equal the array key in which the validation error occurred.
+Array values are returned as an array whose keys equal the rule 
+(or `key` when defined using the `seyKeyMessages` method), 
+and whose value equal the message.
 
 **Parameters:**
 
@@ -163,3 +167,18 @@ Array keys equal the rule array key in which the validation error occurred.
 - (array)
 
 <hr />
+
+**Example:**
+
+Example array returned by this method using the example [above](#documentation--validator):
+
+```php
+[
+    'sku' => [
+        'key' => 'Incorrect SKU format'
+    ],
+    'sizes.small.price' => [
+        'greaterThanOrEqual' => 'The value must be greater than or equal to 0'
+    ]
+]
+```

@@ -1,85 +1,14 @@
 # Documentation
 
-- [Validator](validator.md)
-- [Available rules](rules.md)
-- [Rule interface](#rule-interface)
+PHP validator is a simple class used to validate a variety of data.
+Validation can be done one rule at a time using a rule interface,
+or multiple rules at once using the validator.
 
-## Rule interface
+It supports custom validation messages on a per-rule or a per-array key 
+(when using the validator) basis.
 
-This library includes a number of validation rules, each with their own class.
-Each validation rule extends `Bayfront\Validator\Abstracts\Rule` and implements
-`Bayfront\Validator\Interfaces\ValidationRuleInterface`.
+This library also supports custom rules using the [callback](rules.md#callback) rule.
 
-Each rule will require different parameters in its constructor, depending on its requirements.
-
-**Example:**
-
-```php
-use Bayfront\Validator\Rules\Matches;
-
-$password = '12345';
-$confirm_password = '1234';
-
-$matches = new Matches($password, $confirm_password);
-
-// Optionally set a custom validation message
-$matches->setMessage('Passwords must match');
-
-if (!$matches->isValid()) {
-    echo $matches->getMessage();
-}
-```
-
-Each rule contains the following methods:
-
-- [setMessage](#setmessage)
-- [getMessage](#getmessage)
-- [isValid](#isvalid)
-
-### setMessage
-
-**Description:**
-
-Set validation error message.
-
-**Parameters:**
-
-- `$message` (string)
-
-**Returns:**
-
-- `Bayfront\Validator\Abstracts\Rule`
-
-<hr />
-
-### getMessage
-
-**Description:**
-
-Get validation error message.
-
-If a message has not been set, the default message for the rule will be used.
-
-**Parameters:**
-
-- None
-
-**Returns:**
-
-- (string)
-
-<hr />
-
-### isValid
-
-**Description:**
-
-Is validation valid?
-
-**Parameters:**
-
-- None
-
-**Returns:**
-
-- (bool)
+- [Validator](validator.md) - Validate an array using multiple rules
+- [Rule interface](rule-interface.md) - Validate using a single rule
+- [Available rules](rules.md) - All available rules

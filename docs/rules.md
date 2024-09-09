@@ -1,6 +1,7 @@
 # Documentation > Rules
 
-For more information, see [rule interface](README.md#rule-interface).
+For more information on how to use these rules,
+see [rule interface](rule-interface.md) or [validator](validator.md).
 
 ## Available rules
 

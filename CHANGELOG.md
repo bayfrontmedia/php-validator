@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Rewrote entire library to utilize a `ValidationRuleInterface` rather than static methods.
+- Rewrote entire library to utilize a `ValidationRuleInterface` rather than static methods. 
+This update is not backwards compatible.
 
 ## [3.0.0] - 2023.05.14
 

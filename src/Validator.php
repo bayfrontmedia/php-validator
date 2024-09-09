@@ -7,7 +7,6 @@ use Bayfront\Validator\Interfaces\ValidationRuleInterface;
 use Bayfront\Validator\Rules\Alpha;
 use Bayfront\Validator\Rules\AlphaNumeric;
 use Bayfront\Validator\Rules\Between;
-use Bayfront\Validator\Rules\Contains;
 use Bayfront\Validator\Rules\Date;
 use Bayfront\Validator\Rules\Different;
 use Bayfront\Validator\Rules\Email;
@@ -273,7 +272,7 @@ class Validator
     {
 
         foreach ($messages as $key => $message) {
-            $this->key_messages[$key][0] = $message;
+            $this->key_messages[$key] = $message;
         }
 
         return $this;
@@ -308,27 +307,31 @@ class Validator
     /**
      * Get all validation messages.
      *
-     * Array keys equal the rule array key in which the validation error occurred.
+     * Array keys equal the array key in which the validation error occurred.
+     * Array values are returned as an array whose keys equal the rule
+     * (or `key` when defined using the `seyKeyMessages` method),
+     * and whose value equal the message.
      *
      * @return array
      */
     public function getMessages(): array
     {
 
-        $messages = $this->messages;
+        $messages = $this->messages; // Messages returned by rules
 
         foreach ($messages as $key => $message) {
 
-            if (isset($this->key_messages[$key])) {
-                $messages[$key] = $this->key_messages[$key];
-                continue;
-            }
+            if (isset($this->key_messages[$key])) { // Key message exists, only return this
 
-            if (isset($this->rule_messages[$key])) {
+                $messages[$key] = [
+                    'key' => $this->key_messages[$key]
+                ];
+
+            } else if (isset($this->rule_messages[$key])) {
 
                 foreach ($this->rule_messages[$key] as $rule => $rule_message) {
 
-                    if (isset($messages[$key][$rule])) {
+                    if (isset($messages[$key][$rule])) { // Overwrite message
                         $messages[$key][$rule] = $rule_message;
                     }
 
