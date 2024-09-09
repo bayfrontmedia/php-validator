@@ -10,6 +10,7 @@ All rules can be used except for:
 In addition, the rule `nullable` is available to be used, 
 which allows for an array key's value to optionally be `null`.
 
+- Array keys are defined for the rules in dot notation
 - [Rule names](rules.md) are in camel-case with the first letter being lowercase
 - Rules are separated by a pipe (`|`)
 - Rule parameters are added with a colon (`:`) separated by a comma (`,`)

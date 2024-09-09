@@ -165,6 +165,17 @@ class Validator
 
                     if ($rule_class->isValid()) {
 
+                        if ($require_all && $this->keyDoesNotExist($input, $input_key)) {
+
+                            $this->is_valid = false;
+                            $this->messages[$input_key]['required'] = 'Key does not exist: ' . $input_key;
+
+                            if ($first_error_only) {
+                                return $this;
+                            }
+
+                        }
+
                         continue 2; // Stop iterating this key
 
                     }
@@ -197,7 +208,7 @@ class Validator
                     if ($require_all) {
 
                         $this->is_valid = false;
-                        $this->messages[$input_key][$rule] = 'Key does not exist: ' . $input_key;
+                        $this->messages[$input_key]['required'] = 'Key does not exist: ' . $input_key;
 
                         if ($first_error_only) {
                             return $this;
