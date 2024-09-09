@@ -16,7 +16,7 @@ class StartsWith extends Rule implements ValidationRuleInterface
 
     /**
      * @param mixed $value (string)
-     * @param mixed $needle (string))
+     * @param mixed $needle (string)
      */
     public function __construct(mixed $value, mixed $needle)
     {

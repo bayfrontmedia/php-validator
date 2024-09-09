@@ -6,7 +6,7 @@ use Bayfront\Validator\Abstracts\Rule;
 use Bayfront\Validator\Interfaces\ValidationRuleInterface;
 
 /**
- * Checks if string length is greater than or equal to a given length.
+ * Checks if string length is less than or equal to a given length.
  */
 class MinLength extends Rule implements ValidationRuleInterface
 {

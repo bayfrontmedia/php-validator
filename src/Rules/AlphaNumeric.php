@@ -14,7 +14,7 @@ class AlphaNumeric extends Rule implements ValidationRuleInterface
     private string $value;
 
     /**
-     * @param mixed $value
+     * @param mixed $value (string)
      */
     public function __construct(mixed $value)
     {

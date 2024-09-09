@@ -24,7 +24,7 @@ class LengthGreaterThan extends Rule implements ValidationRuleInterface
         $this->value = strval($value);
         $this->length = intval($length);
 
-        $this->setMessage('The value must have a length less than ' . $this->length);
+        $this->setMessage('The value must have a length greater than ' . $this->length);
 
     }
 

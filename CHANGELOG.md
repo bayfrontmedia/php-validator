@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities
 
+### [4.0.0] - 2024.09.09
+
+### Changed
+
+- Rewrote entire library to utilize a `ValidationRuleInterface` rather than static methods.
+
 ## [3.0.0] - 2023.05.14
 
 ### Changed

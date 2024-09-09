@@ -19,7 +19,7 @@ class Date extends Rule implements ValidationRuleInterface
 
     /**
      * @param mixed $value (string)
-     * @param mixed $format (format)
+     * @param mixed $format (string)
      */
     public function __construct(mixed $value, mixed $format = 'Y-m-d H:i:s')
     {

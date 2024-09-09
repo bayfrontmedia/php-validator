@@ -475,7 +475,7 @@ Checks if string length is greater than or equal to a given length.
 
 **Description:**
 
-Checks if string length is greater than or equal to a given length.
+Checks if string length is less than or equal to a given length.
 
 **Parameters:**
 

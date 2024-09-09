@@ -1,8 +1,8 @@
 # Documentation
 
 - [Validator](validator.md)
-- [Rule interface](#rule-interface)
 - [Available rules](rules.md)
+- [Rule interface](#rule-interface)
 
 ## Rule interface
 
@@ -21,6 +21,8 @@ $password = '12345';
 $confirm_password = '1234';
 
 $matches = new Matches($password, $confirm_password);
+
+// Optionally set a custom validation message
 $matches->setMessage('Passwords must match');
 
 if (!$matches->isValid()) {
@@ -46,7 +48,7 @@ Set validation error message.
 
 **Returns:**
 
-- (self)
+- (`Bayfront\Validator\Abstracts\Rule`)
 
 <hr />
 
