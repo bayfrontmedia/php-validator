@@ -6,7 +6,7 @@ use Bayfront\Validator\Abstracts\Rule;
 use Bayfront\Validator\Interfaces\ValidationRuleInterface;
 
 /**
- * Value must return TRUE from callback function.
+ * Value must return TRUE from the callback function.
  * The value is passed as an argument to the function.
  */
 class Callback extends Rule implements ValidationRuleInterface

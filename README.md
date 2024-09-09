@@ -6,7 +6,7 @@ Simple class used to validate types and values.
 - [Author](#author)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Documentation](#documentation)
 
 ## License
 
@@ -29,7 +29,9 @@ This project is open source and available under the [MIT License](LICENSE).
 composer require bayfrontmedia/php-validator
 ```
 
-## Usage
+## Documentation
+
+See [documentation](docs/README.md). 
 
 **Example:**
 

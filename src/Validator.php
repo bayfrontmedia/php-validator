@@ -69,7 +69,6 @@ class Validator
         'alpha' => Alpha::class,
         'alphaNumeric' => AlphaNumeric::class,
         'between' => Between::class,
-        'contains' => Contains::class,
         'date' => Date::class,
         'different' => Different::class,
         'email' => Email::class,
@@ -122,9 +121,9 @@ class Validator
      * Validate input against a set of rules.
      *
      * @param array $input
-     * @param array $rules
-     * @param bool $require_all
-     * @param bool $first_error_only
+     * @param array $rules (Rules in dot notation)
+     * @param bool $require_all (Require all rule keys to exist on the array?)
+     * @param bool $first_error_only (Stop validation and return first error only)
      * @return self
      */
     public function validate(array $input, array $rules, bool $require_all = false, bool $first_error_only = false): Validator
@@ -239,7 +238,6 @@ class Validator
 
             }
 
-
         }
 
         return $this;
@@ -247,7 +245,7 @@ class Validator
     }
 
     /**
-     * Was the validation valid?
+     * Is validation valid?
      *
      * @return bool
      */
@@ -266,7 +264,9 @@ class Validator
     /**
      * Set validation messages for specific array keys.
      *
-     * @param array $messages (Key = Array key in dot notation, Value = Message)
+     * Only this validation message will be returned for the key, regardless of the rule which caused it.
+     *
+     * @param array $messages (key = array key in dot notation, value = message)
      * @return $this
      */
     public function setKeyMessages(array $messages): Validator
@@ -288,10 +288,10 @@ class Validator
     private array $rule_messages = [];
 
     /**
-     * Set validation messages for specific array key rule.
+     * Set validation messages for a specific array key rule.
      *
      * @param string $key (Array key in dot notation)
-     * @param array $rule_messages (Key = Rule, Value = Message)
+     * @param array $rule_messages (Key = rule, Value = message)
      * @return $this
      */
     public function setRuleMessages(string $key, array $rule_messages): Validator

@@ -6,7 +6,7 @@ use Bayfront\Validator\Abstracts\Rule;
 use Bayfront\Validator\Interfaces\ValidationRuleInterface;
 
 /**
- * Empty string.
+ * Value is an empty string.
  */
 class IsEmpty extends Rule implements ValidationRuleInterface
 {

@@ -10,9 +10,6 @@ interface ValidationRuleInterface
     /**
      * Set validation error message.
      *
-     * The placeholder :attribute will be automatically replaced with
-     * the set attribute value;
-     *
      * @param string $message
      * @return Rule
      */
@@ -20,6 +17,8 @@ interface ValidationRuleInterface
 
     /**
      * Get validation error message.
+     *
+     * If a message has not been set, the default message for the rule will be used.
      *
      * @return string
      */

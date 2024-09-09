@@ -6,7 +6,7 @@ use Bayfront\Validator\Abstracts\Rule;
 use Bayfront\Validator\Interfaces\ValidationRuleInterface;
 
 /**
- * Matching values.
+ * Values match.
  * Strings are compared as case-sensitive.
  */
 class Matches extends Rule implements ValidationRuleInterface

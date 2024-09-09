@@ -7,22 +7,22 @@ use Bayfront\Validator\Abstracts\Rule;
 use Bayfront\Validator\Interfaces\ValidationRuleInterface;
 
 /**
- * Required array key to exist.
+ * Required array key exists.
  */
 class Required extends Rule implements ValidationRuleInterface
 {
 
-    private mixed $array;
+    private mixed $value;
     private mixed $key;
 
     /**
-     * @param mixed $array (array)
+     * @param mixed $value (array)
      * @param mixed $key (string: Array key in dot notation)
      */
-    public function __construct(mixed $array, mixed $key)
+    public function __construct(mixed $value, mixed $key)
     {
 
-        $this->array = $array;
+        $this->value = $value;
         $this->key = $key;
 
         $this->setMessage('Required array key is missing');
@@ -35,13 +35,13 @@ class Required extends Rule implements ValidationRuleInterface
     public function isValid(): bool
     {
 
-        if (!is_array($this->array) ||
+        if (!is_array($this->value) ||
             !is_string($this->key)) {
             return false;
         }
 
 
-        if (Arr::has($this->array, $this->key) || Arr::get($this->array, $this->key, []) === null) {
+        if (Arr::has($this->value, $this->key) || Arr::get($this->value, $this->key, []) === null) {
             return true;
         }
 

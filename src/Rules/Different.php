@@ -6,7 +6,7 @@ use Bayfront\Validator\Abstracts\Rule;
 use Bayfront\Validator\Interfaces\ValidationRuleInterface;
 
 /**
- * Different values.
+ * Checks if values are different.
  * Strings are compared as case-sensitive.
  */
 class Different extends Rule implements ValidationRuleInterface
