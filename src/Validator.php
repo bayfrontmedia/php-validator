@@ -9,6 +9,7 @@ use Bayfront\Validator\Rules\AlphaNumeric;
 use Bayfront\Validator\Rules\Between;
 use Bayfront\Validator\Rules\Contains;
 use Bayfront\Validator\Rules\Date;
+use Bayfront\Validator\Rules\Different;
 use Bayfront\Validator\Rules\Email;
 use Bayfront\Validator\Rules\EndsWith;
 use Bayfront\Validator\Rules\Equals;
@@ -28,6 +29,8 @@ use Bayfront\Validator\Rules\IsObject;
 use Bayfront\Validator\Rules\IsString;
 use Bayfront\Validator\Rules\LengthBetween;
 use Bayfront\Validator\Rules\LengthEquals;
+use Bayfront\Validator\Rules\LengthGreaterThan;
+use Bayfront\Validator\Rules\LengthLessThan;
 use Bayfront\Validator\Rules\LessThan;
 use Bayfront\Validator\Rules\LessThanOrEqual;
 use Bayfront\Validator\Rules\Matches;
@@ -58,13 +61,6 @@ class Validator
     private array $messages = [];
 
     /**
-     * Defined validation messages.
-     *
-     * @var array
-     */
-    private array $set_messages = [];
-
-    /**
      * Available validation rules.
      *
      * @var array
@@ -75,6 +71,7 @@ class Validator
         'between' => Between::class,
         'contains' => Contains::class,
         'date' => Date::class,
+        'different' => Different::class,
         'email' => Email::class,
         'endsWith' => EndsWith::class,
         'equals' => Equals::class,
@@ -94,6 +91,8 @@ class Validator
         'isString' => IsString::class,
         'lengthBetween' => LengthBetween::class,
         'lengthEquals' => LengthEquals::class,
+        'lengthGreaterThan' => LengthGreaterThan::class,
+        'lengthLessThan' => LengthLessThan::class,
         'lessThan' => LessThan::class,
         'lessThanOrEqual' => LessThanOrEqual::class,
         'matches' => Matches::class,
@@ -147,7 +146,7 @@ class Validator
                     if (!$rule_class->isValid()) {
 
                         $this->is_valid = false;
-                        $this->messages[$input_key][] = $rule_class->getMessage();
+                        $this->messages[$input_key]['required'] = $rule_class->getMessage();
 
                         if ($first_error_only) {
                             return $this;
@@ -168,29 +167,11 @@ class Validator
 
                     if ($rule_class->isValid()) {
 
-                        /*
-                        $this->is_valid = false;
-                        $this->messages[$input_key][] = $rule_class->getMessage();
-
-                        if ($first_error_only) {
-                            return $this;
-                        }
-
-                        continue 2; // Stop iterating this key
-                        */
-
                         continue 2; // Stop iterating this key
 
                     }
 
                 }
-
-                /*
-                if (in_array('nullable', $rule_list) &&
-                    Arr::get($input, $input_key, []) === null) {
-                    continue 2;
-                }
-                */
 
                 // Check all other rules
 
@@ -198,14 +179,14 @@ class Validator
 
                 $rule = $definition[0];
 
-                if ($rule == 'required' || $rule =='nullable') {
-                   continue; // Already checked
+                if ($rule == 'required' || $rule == 'nullable') {
+                    continue; // Already checked
                 }
 
                 if (!isset($this->rules[$rule])) {
 
                     $this->is_valid = false;
-                    $this->messages[$input_key][] = 'Invalid rule: ' . $rule;
+                    $this->messages[$input_key][$rule] = 'Invalid rule: ' . $rule;
 
                     if ($first_error_only) {
                         return $this;
@@ -218,7 +199,7 @@ class Validator
                     if ($require_all) {
 
                         $this->is_valid = false;
-                        $this->messages[$input_key][] = 'Key does not exist: ' . $input_key;
+                        $this->messages[$input_key][$rule] = 'Key does not exist: ' . $input_key;
 
                         if ($first_error_only) {
                             return $this;
@@ -230,29 +211,15 @@ class Validator
 
                 }
 
-                /*
-                echo 'key: ' . $input_key . ' rule: ' . $rule . PHP_EOL;
-                print_r($definition);
-                die;
-                */
-
                 if (!isset($definition[1])) { // No parameters defined in rule
 
-                    /*
-                    $params = [
-                        $input,
-                        $input_key
-                    ];
-                    */
-
-                    $params = [Arr::get($input, $input_key)];
+                    $params = [Arr::get($input, $input_key)]; // Subject
 
                 } else { // Parameters defined in rule
 
                     $params = explode(',', $definition[1]);
 
-                    array_unshift($params, Arr::get($input, $input_key)); // Subject
-                    //array_unshift($params, $input); // Add entire array to beginning
+                    array_unshift($params, Arr::get($input, $input_key)); // Add subject to start of array
 
                 }
 
@@ -262,7 +229,7 @@ class Validator
                 if (!$rule_class->isValid()) {
 
                     $this->is_valid = false;
-                    $this->messages[$input_key][] = $rule_class->getMessage();
+                    $this->messages[$input_key][$rule] = $rule_class->getMessage();
 
                     if ($first_error_only) {
                         return $this;
@@ -290,16 +257,48 @@ class Validator
     }
 
     /**
+     * Defined validation messages for specific array keys.
+     *
+     * @var array
+     */
+    private array $key_messages = [];
+
+    /**
      * Set validation messages for specific array keys.
      *
      * @param array $messages (Key = Array key in dot notation, Value = Message)
      * @return $this
      */
-    public function setMessages(array $messages): Validator
+    public function setKeyMessages(array $messages): Validator
     {
 
         foreach ($messages as $key => $message) {
-            $this->set_messages[$key][0] = $message;
+            $this->key_messages[$key][0] = $message;
+        }
+
+        return $this;
+
+    }
+
+    /**
+     * Defined validation messages for specific array key rules.
+     *
+     * @var array
+     */
+    private array $rule_messages = [];
+
+    /**
+     * Set validation messages for specific array key rule.
+     *
+     * @param string $key (Array key in dot notation)
+     * @param array $rule_messages (Key = Rule, Value = Message)
+     * @return $this
+     */
+    public function setRuleMessages(string $key, array $rule_messages): Validator
+    {
+
+        foreach ($rule_messages as $rule => $message) {
+            $this->rule_messages[$key][$rule] = $message;
         }
 
         return $this;
@@ -318,10 +317,25 @@ class Validator
 
         $messages = $this->messages;
 
-        foreach ($this->set_messages as $k => $v) {
-            if (isset($messages[$k])) {
-                $messages[$k] = $v;
+        foreach ($messages as $key => $message) {
+
+            if (isset($this->key_messages[$key])) {
+                $messages[$key] = $this->key_messages[$key];
+                continue;
             }
+
+            if (isset($this->rule_messages[$key])) {
+
+                foreach ($this->rule_messages[$key] as $rule => $rule_message) {
+
+                    if (isset($messages[$key][$rule])) {
+                        $messages[$key][$rule] = $rule_message;
+                    }
+
+                }
+
+            }
+
         }
 
         return $messages;
