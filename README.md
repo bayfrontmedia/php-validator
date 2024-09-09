@@ -66,7 +66,7 @@ if (!Validate::empty($string)) {
 - [uuid](#uuid)
 - [uuidv4](#uuidv4)
 
-**Numbers:**
+**Integers:**
 
 - [lessThan](#lessthan)
 - [greaterThan](#greaterthan)
@@ -678,33 +678,13 @@ Validate array values against a set of rules.
 
 Multiple rules can be validated against one key by separating them with a pipe (`|`).
 
-Available rules are:
-
-- `empty`
-- `email`
-- `url`
-- `ip`
-- `ipv4`
-- `ipv6`
-- `alpha`
-- `numeric`
-- `alphanumeric`
-- `uuid`
-- `uuidv4`
-- `null`
-- `integer`
-- `float`
-- `boolean`
-- `object`
-- `array`
-- `string`
-- `json`
+Available rules are any RULE_* constant. Parameters are separated by a comma.
 
 **Parameters:**
 
 - `$array` (array): Array to validate
 - `$rules` (array): Array whose keys are the array key to validate in dot notation and values are the rule
-- `$require_existing = false` (bool): Require all array keys to exist
+- `$require_all = false` (bool): Require all array keys to exist
 
 **Returns:**
 
@@ -736,14 +716,13 @@ $array = [
 ];
 
 $rules = [
-    'sku' => 'integer',
-    'type' => 'string|null',
+    'sku' => 'required|integer',
+    'type' => 'string|nullable',
     'color' => 'string',
-    'quantity' => 'integer',
-    'sizes.small.quantity' => 'integer',
-    'sizes.small.price' => 'float',
-    'on_sale' => 'boolean|null',
-    'meta.tags' => 'array'
+    'sizes.small.quantity' => 'integer|greaterThan:0',
+    'sizes.small.price' => 'float|between:0,20',
+    'on_sale' => 'boolean',
+    'meta.tags' => 'nullable|array'
 ];
 
 if (!Validate::as($array, $rules)) {
