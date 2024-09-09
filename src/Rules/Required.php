@@ -25,7 +25,7 @@ class Required extends Rule implements ValidationRuleInterface
         $this->value = $value;
         $this->key = $key;
 
-        $this->setMessage('Required array key is missing';
+        $this->setMessage('Required array key is missing');
 
     }
 

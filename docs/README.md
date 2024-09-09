@@ -48,7 +48,7 @@ Set validation error message.
 
 **Returns:**
 
-- (`Bayfront\Validator\Abstracts\Rule`)
+- `Bayfront\Validator\Abstracts\Rule`
 
 <hr />
 
