@@ -1,0 +1,34 @@
+<?php
+
+namespace Bayfront\Validator\Rules;
+
+use Bayfront\Validator\Abstracts\Rule;
+use Bayfront\Validator\Interfaces\ValidationRuleInterface;
+
+/**
+ * Checks if string validates as an IPv6 address.
+ */
+class Ipv6 extends Rule implements ValidationRuleInterface
+{
+
+    private string $value;
+
+    /**
+     * @param mixed $value (string)
+     */
+    public function __construct(mixed $value)
+    {
+        $this->value = strval($value);
+        $this->setMessage('The value must be an IPv6');
+
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isValid(): bool
+    {
+        return filter_var($this->value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+    }
+
+}
