@@ -156,7 +156,7 @@ Get all validation messages.
 
 Array keys equal the array key in which the validation error occurred.
 Array values are returned as an array whose keys equal the rule 
-(or `key` when defined using the `seyKeyMessages` method), 
+(or `key` when defined using the `setKeyMessages` method), 
 and whose value equal the message.
 
 **Parameters:**
