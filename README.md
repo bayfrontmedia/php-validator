@@ -1,6 +1,7 @@
 ## PHP validator
 
-Simple class used to validate a variety of data.
+PHP validator is a simple class used to validate a variety of data,
+and supports custom validation messages.
 
 - [License](#license)
 - [Author](#author)

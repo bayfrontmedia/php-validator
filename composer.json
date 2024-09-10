@@ -1,6 +1,6 @@
 {
   "name": "bayfrontmedia/php-validator",
-  "description": "Simple class used to validate a variety of data.",
+  "description": "A simple class used to validate a variety of data, and supports custom validation messages",
   "homepage": "https://github.com/bayfrontmedia/php-validator",
   "license" : "MIT",
   "type": "library",

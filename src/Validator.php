@@ -41,6 +41,7 @@ use Bayfront\Validator\Rules\StartsWith;
 use Bayfront\Validator\Rules\Url;
 use Bayfront\Validator\Rules\Uuid;
 use Bayfront\Validator\Rules\Uuidv4;
+use ReflectionClass;
 
 class Validator
 {
@@ -130,11 +131,32 @@ class Validator
 
         foreach ($rules as $input_key => $rule_list) {
 
-            $rule_list = explode('|', $rule_list);
+            /*
+             * Check if all are required before evaluating rules
+             */
+
+            if ($require_all && $this->keyDoesNotExist($input, $input_key)) {
+
+                $this->is_valid = false;
+                $this->messages[$input_key]['required'] = 'Key does not exist: ' . $input_key;
+
+                if ($first_error_only) {
+                    return $this;
+                }
+
+                continue; // Do not evaluate any other rules
+
+            }
+
+            $rule_list = explode('|', $rule_list); // Rules are separated by a pipe (|)
 
             foreach ($rule_list as $rule_definition) {
 
-                // Check required
+                /*
+                 * Check if this key is required
+                 *
+                 * If rule exists and fails, ignore all other rules for this $input_key
+                 */
 
                 if (in_array('required', $rule_list)) {
 
@@ -150,35 +172,31 @@ class Validator
                             return $this;
                         }
 
-                        continue 2; // Stop iterating this key
+                        continue 2; // Stop iterating rules for this input key since it does not exist
 
                     }
 
                 }
 
-                // Check nullable
+                /*
+                 * Check nullable
+                 */
 
                 if (in_array('nullable', $rule_list)) {
 
                     /** @var ValidationRuleInterface $rule_class */
-                    $rule_class = new $this->rules['isNull'](Arr::get($input, $input_key));
+                    $rule_class = new $this->rules['isNull'](Arr::get($input, $input_key, []));
 
-                    if ($rule_class->isValid()) {
+                    if ($rule_class->isValid()) { // If is null
 
-                        if ($require_all && $this->keyDoesNotExist($input, $input_key)) {
-
-                            $this->is_valid = false;
-                            $this->messages[$input_key]['required'] = 'Key does not exist: ' . $input_key;
-
-                            if ($first_error_only) {
-                                return $this;
-                            }
-
-                        }
-
-                        continue 2; // Stop iterating this key
+                        continue 2; // Stop iterating this input key since nullable and = null negates all other rules
 
                     }
+
+                    /*
+                     * No error if not valid, because "nullable" allows for other types
+                     * which will be evaluated below.
+                     */
 
                 }
 
@@ -189,7 +207,7 @@ class Validator
                 $rule = $definition[0];
 
                 if ($rule == 'required' || $rule == 'nullable') {
-                    continue; // Already checked
+                    continue; // Already checked, continue to next rule
                 }
 
                 if (!isset($this->rules[$rule])) {
@@ -201,22 +219,7 @@ class Validator
                         return $this;
                     }
 
-                }
-
-                if ($this->keyDoesNotExist($input, $input_key)) {
-
-                    if ($require_all) {
-
-                        $this->is_valid = false;
-                        $this->messages[$input_key]['required'] = 'Key does not exist: ' . $input_key;
-
-                        if ($first_error_only) {
-                            return $this;
-                        }
-
-                    }
-
-                    continue 2; // Stop iterating this key
+                    continue; // Continue to next rule
 
                 }
 
@@ -229,6 +232,26 @@ class Validator
                     $params = explode(',', $definition[1]);
 
                     array_unshift($params, Arr::get($input, $input_key)); // Add subject to start of array
+
+                }
+
+                /*
+                 * Check number of parameters
+                 */
+
+                $rc = new ReflectionClass($this->rules[$rule]);
+                $rc_params = $rc->getConstructor()->getParameters();
+
+                if (count($rc_params) !== count($params)) {
+
+                    $this->is_valid = false;
+                    $this->messages[$input_key][$rule] = 'Invalid rule parameters: ' . $rule;
+
+                    if ($first_error_only) {
+                        return $this;
+                    }
+
+                    continue; // Continue to next rule
 
                 }
 
@@ -274,7 +297,7 @@ class Validator
     /**
      * Set validation messages for specific array keys.
      *
-     * Only this validation message will be returned for the key, regardless of the rule which caused it.
+     * Only this validation message will be returned with the key "key", regardless of the rule which caused it.
      *
      * @param array $messages (key = array key in dot notation, value = message)
      * @return $this

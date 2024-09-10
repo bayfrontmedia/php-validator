@@ -119,7 +119,7 @@ Is validation valid?
 
 Set validation messages for specific array keys.
 
-Only this validation message will be returned for the key, regardless of the rule which caused it.
+Only this validation message will be returned with the key `key`, regardless of the rule which caused it.
 
 **Parameters:**
 
