@@ -179,6 +179,14 @@ class Validator
                 }
 
                 /*
+                 * If not required and input key does not exist, no need to validate
+                 */
+
+                if (!isset($input[$input_key])) {
+                    continue 2;
+                }
+
+                /*
                  * Check nullable
                  */
 
