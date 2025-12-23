@@ -23,6 +23,7 @@ see [rule interface](rule-interface.md) or [validator](validator.md).
 - [IsArray](#isarray)
 - [IsBoolean](#isboolean)
 - [IsEmpty](#isempty)
+- [IsFile](#isfile)
 - [IsFloat](#isfloat)
 - [IsInteger](#isinteger)
 - [IsJson](#isjson)
@@ -287,6 +288,18 @@ Value is a boolean.
 **Description:**
 
 Value is an empty string.
+
+**Parameters:**
+
+- `$value` (mixed)
+
+<hr />
+
+### IsFile
+
+**Description:**
+
+Value is an uploaded file.
 
 **Parameters:**
 

@@ -20,6 +20,7 @@ use Bayfront\Validator\Rules\Ipv6;
 use Bayfront\Validator\Rules\IsArray;
 use Bayfront\Validator\Rules\IsBoolean;
 use Bayfront\Validator\Rules\IsEmpty;
+use Bayfront\Validator\Rules\IsFile;
 use Bayfront\Validator\Rules\IsFloat;
 use Bayfront\Validator\Rules\IsInteger;
 use Bayfront\Validator\Rules\IsJson;
@@ -82,6 +83,7 @@ class Validator
         'isArray' => IsArray::class,
         'isBoolean' => IsBoolean::class,
         'isEmpty' => IsEmpty::class,
+        'isFile' => IsFile::class,
         'isFloat' => IsFloat::class,
         'isInteger' => IsInteger::class,
         'isJson' => IsJson::class,
